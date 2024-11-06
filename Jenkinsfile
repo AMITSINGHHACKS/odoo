@@ -1,9 +1,6 @@
 pipeline {
     agent any
-    tools{
-        jdk 'jdk17'
-        nodejs 'node16'
-    }
+
     environment {
         APP_NAME = "azure-web-search"
         RELEASE = "1.0.0"
