@@ -8,6 +8,11 @@ pipeline {
         SCANNER_HOME=tool 'sonar-scanner' 
     }
     stages {
+        stage('test') {
+            steps {  
+                echo "triggering update manifest job"
+            }
+        }
         stage("Sonarqube Analysis") {
             steps {
                 script {
