@@ -14,6 +14,22 @@ jobs:
               -Dsonar.sources=. \
               -Dsonar.host.url=$SONARQUBE_HOST_URL \
               -Dsonar.login=$SONARQUBE_TOKEN
+              
+  sonarqubewithshallow:
+    docker:
+      - image: sonarsource/sonar-scanner-cli  # SonarQube Scanner image
+    steps:
+      - run:
+          name: shallow checkout # Pull latest code from repo
+          command: git clone --depth 1 --branch circleci-project-setup https://github.com/AMITSINGHHACKS/odoo.git
+      - run:
+          name: Run SonarQube Analysis
+          command: |
+            sonar-scanner \
+              -Dsonar.projectKey=djangoecomclone \
+              -Dsonar.sources=. \
+              -Dsonar.host.url=$SONARQUBE_HOST_URL \
+              -Dsonar.login=$SONARQUBE_TOKEN
   
   build:
     docker:
@@ -36,6 +52,7 @@ workflows:
   build-and-deploy:
     jobs:
       - sonarqube
+      - sonarqubewithshallow
       - build:
           type: approval
           requires:
